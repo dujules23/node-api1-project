@@ -21,6 +21,24 @@ server.get("/api/users", (req,res) => {
 
 })
 
+// get w/id - gets a specific user via id
+server.get("/api/users/:id", (req, res) => {
+  const id = req.params.id
+  User.findById(id)
+    .then(user => {
+      if(!user){
+        res.status(404).json({message: "The user with the specified ID does not exist"})
+      }
+      else{
+        res.json(user)
+      }
+    })
+    .catch(err => {
+      res.status(500).json({message: "The users information could not be retrieved", err})
+    })
+
+})
+
 
 //post - Update user
 server.post("/api/users", (req,res) => {
@@ -42,5 +60,5 @@ server.post("/api/users", (req,res) => {
 
 //Hello world
 server.use("*", (req,res)=> {
-  res.status(404).json({message: "hello there"})
+  res.status(404).json({message: "Princess is in another castle!"})
 })
